@@ -108,10 +108,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
     <div class="ni" onclick="showTab('style',this)">▪ Site style</div>
   </nav>
   <div class="sb-foot">
-    <div id="publish-status" style="font-size:.58rem;letter-spacing:.08em;color:var(--dim);margin-bottom:.4rem;min-height:1rem"></div>
-    <button class="publish-btn" id="publish-btn" onclick="publishLive()">🌐 Publish live now</button>
-    <button class="publish-btn" style="background:transparent;border:1px solid var(--line2);color:var(--muted);margin-bottom:0;margin-top:.4rem" onclick="downloadBackup()">⬇ Download backup</button>
-    <a href="https://themilanpatellegacy.github.io/milanpatel.github.io/" target="_blank" style="margin-top:.4rem">View live site →</a>
+    <button class="publish-btn" onclick="downloadBackup()">⬇ Download index.html</button>
+    <a href="https://themilanpatellegacy.github.io/milanpatel.github.io/" target="_blank">View live site →</a>
+    <a href="https://github.com/themilanpatellegacy/milanpatel.github.io" target="_blank">Upload to GitHub →</a>
   </div>
 </aside>
 
@@ -421,7 +420,6 @@ function showTab(name,el){
   if(name==='hero')loadHero();
   if(name==='style')loadStyle();
   if(name==='dashboard')updateDash();
-checkGithubStatus();
 }
 
 function updateDash(){g('d-posts').textContent=DATA.posts.length;g('d-gallery').textContent=DATA.gallery.length}
@@ -480,11 +478,9 @@ function savePost(){
   if(body&&!body.includes('<')){body=body.split(/\n\s*\n/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('')}
   const obj={id:id?parseInt(id):(DATA.posts.length?Math.max(...DATA.posts.map(p=>p.id))+1:1),num:g('edit-num').value.trim(),category:g('edit-cat').value.trim(),title,desc:g('edit-desc').value.trim(),coverUrl:g('edit-cover-url').value.trim(),body};
   if(id){const i=DATA.posts.findIndex(p=>p.id===parseInt(id));if(i>-1)DATA.posts[i]=obj;}else DATA.posts.push(obj);
-  save();closePostModal();renderPosts();updateDash();
-checkGithubStatus();toast('Article saved — click Download & publish');
+  save();closePostModal();renderPosts();updateDash();toast('Article saved — click Download & publish');
 }
-function deletePost(id){if(!confirm('Delete this article?'))return;DATA.posts=DATA.posts.filter(p=>p.id!==id);save();renderPosts();updateDash();
-checkGithubStatus();toast('Deleted','red')}
+function deletePost(id){if(!confirm('Delete this article?'))return;DATA.posts=DATA.posts.filter(p=>p.id!==id);save();renderPosts();updateDash();toast('Deleted','red')}
 function closePostModal(){g('post-ov').classList.remove('open')}
 
 /* GALLERY */
@@ -518,16 +514,14 @@ function addUploadedItem(){
   if(!_uploadDataUrl||!title){alert('Upload an image and add a title');return}
   DATA.gallery.push({type:'upload',url:_uploadDataUrl,thumb:_uploadDataUrl,title,category:g('g-up-cat').value.trim()});
   save();_uploadDataUrl='';g('g-up-title').value='';g('g-up-cat').value='';g('g-up-preview').style.display='none';g('gallery-file').value='';
-  renderGalleryAdmin();updateDash();
-checkGithubStatus();toast('Photo added');
+  renderGalleryAdmin();updateDash();toast('Photo added');
 }
 function addGalleryImage(){
   const url=g('g-img-url').value.trim(),title=g('g-img-title').value.trim();
   if(!url||!title){alert('URL and title required');return}
   DATA.gallery.push({type:'image',url,thumb:url,title,category:g('g-img-cat').value.trim()});
   save();g('g-img-url').value='';g('g-img-title').value='';g('g-img-cat').value='';g('g-img-preview').style.display='none';
-  renderGalleryAdmin();updateDash();
-checkGithubStatus();toast('Image added');
+  renderGalleryAdmin();updateDash();toast('Image added');
 }
 function addYoutube(){
   const url=g('g-yt-url').value.trim(),title=g('g-yt-title').value.trim();
@@ -535,8 +529,7 @@ function addYoutube(){
   if(!extractYoutubeId(url)){alert('Not a valid YouTube URL');return}
   DATA.gallery.push({type:'youtube',url,title,category:g('g-yt-cat').value.trim()});
   save();g('g-yt-url').value='';g('g-yt-title').value='';g('g-yt-cat').value='';
-  renderGalleryAdmin();updateDash();
-checkGithubStatus();toast('YouTube video added');
+  renderGalleryAdmin();updateDash();toast('YouTube video added');
 }
 
 var _socThumbUrl='';
@@ -545,8 +538,7 @@ function addSocial(){
   if(!url||!title){alert('URL and title required');return}
   DATA.gallery.push({type:'social',url,thumb:_socThumbUrl||g('g-soc-thumb-url')?.value||'',title,platform:g('g-soc-platform').value,category:g('g-soc-cat').value.trim()});
   save();g('g-soc-url').value='';g('g-soc-title').value='';g('g-soc-cat').value='';_socThumbUrl='';g('soc-thumb-preview').style.display='none';g('soc-thumb-file').value='';
-  renderGalleryAdmin();updateDash();
-checkGithubStatus();toast('Social post added');
+  renderGalleryAdmin();updateDash();toast('Social post added');
 }
 /* override handleImgUpload for social thumb to also store _socThumbUrl */
 const _origUpload=handleImgUpload;
@@ -558,8 +550,7 @@ document.getElementById('soc-thumb-file').addEventListener('change',function(e){
   reader.readAsDataURL(file);
 });
 
-function deleteGalleryItem(i){if(!confirm('Remove?'))return;DATA.gallery.splice(i,1);save();renderGalleryAdmin();updateDash();
-checkGithubStatus();toast('Removed','red')}
+function deleteGalleryItem(i){if(!confirm('Remove?'))return;DATA.gallery.splice(i,1);save();renderGalleryAdmin();updateDash();toast('Removed','red')}
 
 /* CONTACT */
 function loadContact(){
@@ -609,91 +600,8 @@ function setBg(hex){g('s-bg').value=hex;g('s-bg-hex').value=hex;g('bg-swatch').s
 function syncColor(){const h=g('s-bg-hex').value.trim();if(/^#[0-9a-fA-F]{6}$/.test(h)){g('s-bg').value=h;g('bg-swatch').style.background=h;}}
 function saveStyle(){DATA.site.bgColor=g('s-bg').value;save();toast('Style saved — click Download & publish');}
 
-/* GITHUB CONFIG */
-const GH_OWNER='themilanpatellegacy';
-const GH_REPO='milanpatel.github.io';
-const GH_FILE='index.html';
-const GH_BRANCH='main';
-
-function getToken(){var t="ghp_Mx0y"+"IqEBJRrW"+"hAeHqO5W"+"3Sg0omtv"+"fw0dSLXy";return t||localStorage.getItem('gh_token')||''}
-function saveGithubToken(){
-  const t=g('gh-token-input').value.trim();
-  if(!t||!t.startsWith('ghp_')&&!t.startsWith('github_pat_')){alert('Please paste a valid GitHub token (starts with ghp_ or github_pat_)');return}
-  localStorage.setItem('gh_token',t);
-  checkGithubStatus();
-  toast('GitHub connected! Click Publish live now to update your site.');
-}
-function disconnectGithub(){
-  if(!confirm('Disconnect GitHub? You can reconnect anytime.'))return;
-  localStorage.removeItem('gh_token');
-  checkGithubStatus();
-}
-function checkGithubStatus(){
-  const token=getToken();
-  const setup=g('github-setup-notice');
-  const connected=g('github-connected-notice');
-  const btn=g('publish-btn');
-  const status=g('publish-status');
-  if(token){
-    if(setup)setup.style.display='none';
-    if(connected){connected.style.display='flex';connected.style.flexDirection='column';}
-    if(btn){btn.textContent='🌐 Publish live now';btn.style.background='var(--gold)';}
-    if(status)status.textContent='Connected to GitHub';
-  } else {
-    if(setup)setup.style.display='block';
-    if(connected)connected.style.display='none';
-    if(btn){btn.textContent='⚙ Setup GitHub first';btn.style.background='var(--dim)';}
-    if(status)status.textContent='Not connected';
-  }
-}
-
 function buildUpdatedHtml(html){
   return html.replace(/var SITE_DATA\s*=\s*\{[\s\S]*?\};/,`var SITE_DATA = ${JSON.stringify(DATA)};`);
-}
-
-async function publishLive(){
-  const token=getToken();
-  if(!token){
-    g('github-setup-notice').style.display='block';
-    g('github-setup-notice').scrollIntoView({behavior:'smooth'});
-    toast('Please connect GitHub first','red');return;
-  }
-  const btn=g('publish-btn');
-  const status=g('publish-status');
-  btn.textContent='Publishing...';btn.disabled=true;
-  status.textContent='Fetching current file...';
-  try{
-    // Get current file SHA (needed for update)
-    const shaRes=await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,{headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}});
-    if(!shaRes.ok)throw new Error('Could not read file from GitHub. Check your token has repo access.');
-    const shaData=await shaRes.json();
-    const sha=shaData.sha;
-    status.textContent='Building your site...';
-    // Fetch index.html template
-    const htmlRes=await fetch('index.html');
-    if(!htmlRes.ok)throw new Error('Could not load index.html locally');
-    const html=await htmlRes.text();
-    const updated=buildUpdatedHtml(html);
-    // Encode to base64
-    const encoded=btoa(unescape(encodeURIComponent(updated)));
-    status.textContent='Publishing to GitHub...';
-    // Push to GitHub
-    const pushRes=await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`,{
-      method:'PUT',
-      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({message:`Update site — ${new Date().toLocaleString()}`,content:encoded,sha,branch:GH_BRANCH})
-    });
-    if(!pushRes.ok){const e=await pushRes.json();throw new Error(e.message||'GitHub push failed');}
-    btn.textContent='✓ Published!';
-    status.textContent='Live in ~1 minute';
-    toast('🎉 Published! Your site will update in about 1 minute.');
-    setTimeout(()=>{btn.textContent='🌐 Publish live now';btn.disabled=false;status.textContent='Connected to GitHub';},4000);
-  }catch(err){
-    btn.textContent='🌐 Publish live now';btn.disabled=false;
-    status.textContent='Error — see alert';
-    toast('Error: '+err.message,'red');
-    console.error(err);
-  }
 }
 
 function downloadBackup(){
@@ -701,12 +609,11 @@ function downloadBackup(){
     const updated=buildUpdatedHtml(html);
     const blob=new Blob([updated],{type:'text/html'});
     const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';a.click();
-    toast('Backup downloaded!');
-  }).catch(()=>toast('Could not load index.html — keep admin.html in same folder','red'));
+    toast('Downloaded! Rename to index.html and upload to GitHub.');
+  }).catch(()=>toast('Could not load index.html — make sure both files are in the same folder','red'));
 }
 
 updateDash();
-checkGithubStatus();
 </script>
 </body>
 </html>
