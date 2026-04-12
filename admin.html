@@ -615,7 +615,7 @@ const GH_REPO='milanpatel.github.io';
 const GH_FILE='index.html';
 const GH_BRANCH='main';
 
-function getToken(){return localStorage.getItem('gh_token')||''}
+function getToken(){return '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'||localStorage.getItem('gh_token')||''}
 function saveGithubToken(){
   const t=g('gh-token-input').value.trim();
   if(!t||!t.startsWith('ghp_')&&!t.startsWith('github_pat_')){alert('Please paste a valid GitHub token (starts with ghp_ or github_pat_)');return}
