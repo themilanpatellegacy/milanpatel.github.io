@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Milan Patel — Science Writer & Essayist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0b09;--bg2:#111110;--bg3:#161614;
+  --line:#222220;--line2:#2e2e2b;
+  --text:#e8e3d8;--muted:#6b6860;--dim:#3a3a36;
+  --gold:#c9a96e;--gold-dim:#8a6f3e;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:17px;line-height:1.7;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;border-bottom:1px solid var(--line);background:rgba(11,11,9,0.94);backdrop-filter:blur(12px)}
+.nav-logo{font-family:var(--serif);font-size:1.05rem;font-weight:400;letter-spacing:.06em;color:var(--text);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .25s;cursor:pointer}
+.nav-links a:hover{color:var(--gold)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;border-bottom:1px solid var(--line);overflow:hidden}
+.hero-bg-text{position:absolute;top:50%;left:-0.02em;transform:translateY(-50%);font-family:var(--serif);font-size:clamp(10rem,20vw,22rem);font-weight:300;font-style:italic;color:transparent;-webkit-text-stroke:1px var(--line2);line-height:1;white-space:nowrap;pointer-events:none;user-select:none;opacity:.6}
+.hero-content{position:relative;z-index:1;max-width:700px}
+.hero-eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.hero-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--gold-dim)}
+.hero h1{font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;line-height:1.1;letter-spacing:-.01em;color:var(--text);margin-bottom:1.5rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:480px;line-height:1.6;margin-bottom:2.5rem;font-weight:300}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 2rem;border:1px solid var(--gold-dim);color:var(--gold);font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer;background:transparent}
+.btn:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.hero-scroll{position:absolute;right:3rem;bottom:5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.hero-scroll span{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;writing-mode:vertical-rl}
+.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,var(--dim),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(.6)}}
+section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
+.section-header{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:4rem}
+.section-num{font-family:var(--mono);font-size:.65rem;color:var(--dim);letter-spacing:.1em}
+.section-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;color:var(--text);letter-spacing:-.01em}
+.section-line{flex:1;height:1px;background:var(--line)}
+.about-grid{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start}
+.about-portrait{position:relative;aspect-ratio:3/4;background:var(--bg3);border:1px solid var(--line);overflow:hidden}
+.portrait-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.portrait-initials{font-family:var(--serif);font-size:8rem;font-weight:300;font-style:italic;color:var(--line2);line-height:1;user-select:none}
+.portrait-caption{position:absolute;bottom:1rem;left:1rem;right:1rem}
+.portrait-caption span{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.about-body h2{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:300;line-height:1.3;color:var(--text);margin-bottom:1.5rem}
+.about-body h2 em{font-style:italic;color:var(--gold)}
+.about-body p{color:#9b9690;font-size:1.05rem;line-height:1.8;margin-bottom:1.2rem;font-weight:300}
+.about-tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+.about-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .9rem;border:1px solid var(--line2);color:var(--dim)}
+
+/* GALLERY */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.gallery-item{position:relative;aspect-ratio:4/3;background:var(--bg3);border:1px solid var(--line);overflow:hidden;cursor:pointer}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.gallery-item:hover img{transform:scale(1.04)}
+.gallery-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem}
+.gallery-placeholder-icon{font-family:var(--mono);font-size:2rem;color:var(--line2)}
+.gallery-placeholder-text{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.gallery-overlay{position:absolute;inset:0;background:rgba(11,11,9,.82);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.25rem}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-caption{font-size:.95rem;color:var(--text);font-weight:400;margin-bottom:.25rem}
+.gallery-meta{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--gold);text-transform:uppercase}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(5,5,4,.96);align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:88vw;max-height:84vh;object-fit:contain;border:1px solid var(--line)}
+.lb-close{position:absolute;top:2rem;right:2.5rem;font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;color:var(--muted);cursor:pointer;text-transform:uppercase;transition:color .2s}
+.lb-close:hover{color:var(--gold)}
+.lb-caption{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);text-align:center}
+.lb-caption p{font-size:1rem;color:var(--text);font-style:italic}
+.lb-caption span{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+/* ARTICLES */
+.featured-essay{background:var(--bg2);border:1px solid var(--line2);padding:3rem;margin-bottom:3rem;position:relative;overflow:hidden}
+.featured-essay::before{content:'"';position:absolute;top:-1rem;right:2rem;font-family:var(--serif);font-size:12rem;color:var(--line);line-height:1;pointer-events:none}
+.featured-badge{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);display:inline-block;padding:.3rem .8rem;margin-bottom:1.5rem}
+.featured-essay h3{font-size:clamp(1.6rem,3vw,2.5rem);font-weight:300;font-style:italic;color:var(--text);line-height:1.2;margin-bottom:1rem}
+.featured-essay p{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:580px;margin-bottom:2rem;font-weight:300}
+.articles{display:flex;flex-direction:column}
+.article-row{display:grid;grid-template-columns:80px 1fr auto;align-items:start;gap:2rem;padding:2.5rem 0;border-bottom:1px solid var(--line);cursor:pointer;transition:all .3s;text-decoration:none;color:inherit}
+.article-row:first-child{border-top:1px solid var(--line)}
+.article-row:hover .art-title{color:var(--gold)}
+.article-row:hover .art-arrow{opacity:1;transform:translateX(0)}
+.art-num{font-family:var(--mono);font-size:.65rem;color:var(--dim);letter-spacing:.1em;padding-top:4px}
+.art-category{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:.4rem}
+.art-title{font-size:clamp(1.1rem,2vw,1.5rem);font-weight:400;color:var(--text);line-height:1.3;margin-bottom:.5rem;transition:color .25s}
+.art-desc{font-size:.95rem;color:var(--muted);line-height:1.5;font-weight:300}
+.art-arrow{font-size:1.2rem;color:var(--gold);opacity:0;transform:translateX(-8px);transition:all .3s;padding-top:2px}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start}
+.contact-left h2{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;line-height:1.2;color:var(--text);margin-bottom:1.5rem}
+.contact-left h2 em{font-style:italic;color:var(--gold)}
+.contact-left p{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:2.5rem;font-weight:300}
+.contact-links{display:flex;flex-direction:column;gap:.8rem}
+.contact-link-row{display:flex;align-items:center;gap:1rem;font-size:.95rem;color:#7a7570}
+.cl-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);min-width:60px}
+.contact-form{display:flex;flex-direction:column;gap:1.2rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-group label{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.form-group input,.form-group textarea{background:var(--bg2);border:1px solid var(--line);color:var(--text);font-family:var(--serif);font-size:1rem;font-weight:300;padding:.85rem 1rem;outline:none;transition:border-color .25s;resize:none;width:100%}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--gold-dim)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--dim);font-style:italic}
+.form-group textarea{height:120px}
+.submit-btn{align-self:flex-start;padding:.85rem 2.5rem;background:transparent;border:1px solid var(--gold-dim);color:var(--gold);font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.submit-btn:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.form-success{display:none;padding:3rem;border:1px solid var(--line2);text-align:center}
+.form-success p{font-size:1.1rem;color:var(--gold);font-style:italic}
+.form-success span{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.1em;margin-top:.5rem;text-transform:uppercase}
+footer{padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+footer p{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+footer a{color:var(--dim);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--gold)}
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links{gap:1.5rem}
+  .hero{padding:0 1.5rem 4rem}
+  .hero-scroll{display:none}
+  section{padding:4rem 1.5rem}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:2.5rem}
+  .about-portrait{aspect-ratio:2/1}
+  .article-row{grid-template-columns:50px 1fr}
+  .art-arrow{display:none}
+  footer{padding:2rem 1.5rem}
+  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+}
+@media(max-width:480px){.nav-links{display:none}.hero-bg-text{font-size:8rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Milan Patel</a>
+  <ul class="nav-links">
+    <li><a onclick="scroll2('about')">About</a></li>
+    <li><a onclick="scroll2('writing')">Writing</a></li>
+    <li><a onclick="scroll2('gallery')">Gallery</a></li>
+    <li><a onclick="scroll2('contact')">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg-text">Milan</div>
+  <div class="hero-content fade-in">
+    <div class="hero-eyebrow">Science writer &amp; essayist</div>
+    <h1>Ideas that<br><em>reshape</em> the world<br>deserve a clear voice.</h1>
+    <p class="hero-sub">I write about science, artificial intelligence, and the forces quietly rewriting how we learn, work, and think.</p>
+    <a class="btn" onclick="scroll2('writing')">Read my work →</a>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+</div>
+
+<section id="about">
+  <div class="section-header fade-in">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid fade-in">
+    <div class="about-portrait">
+      <div class="portrait-inner"><span class="portrait-initials">MP</span></div>
+      <div class="portrait-caption"><span>Milan Patel — Writer</span></div>
+    </div>
+    <div class="about-body">
+      <h2>Thinking out loud about <em>science and society</em></h2>
+      <p>I'm Milan Patel — a writer fascinated by how scientific and technological shifts ripple through culture, education, and daily life.</p>
+      <p>My work challenges comfortable assumptions. I believe the most important questions are often the ones we're afraid to ask out loud — and that clear writing is an act of respect toward the reader.</p>
+      <p>My latest essay, <em>The Last Classroom</em>, examines how artificial intelligence is exposing a two-century-old flaw in the way we educate the next generation.</p>
+      <div class="about-tags">
+        <span class="about-tag">Artificial intelligence</span>
+        <span class="about-tag">Education</span>
+        <span class="about-tag">Cognitive science</span>
+        <span class="about-tag">Technology &amp; society</span>
+        <span class="about-tag">Future of work</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="writing">
+  <div class="section-header fade-in">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Writing</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="featured-essay fade-in">
+    <div class="featured-badge">Featured essay</div>
+    <h3>The Last Classroom</h3>
+    <p>AI is rewriting every profession on Earth. Education hasn't updated a single chapter. A direct confrontation with a civilizational crisis — and a blueprint for what comes next.</p>
+    <a class="btn" onclick="scroll2('contact')">Request full text →</a>
+  </div>
+  <div class="articles" id="articles-list"></div>
+</section>
+
+<section id="gallery">
+  <div class="section-header fade-in">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Gallery</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="gallery-grid fade-in" id="gallery-grid"></div>
+</section>
+
+<section id="contact">
+  <div class="section-header fade-in">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid fade-in">
+    <div class="contact-left">
+      <h2>Let's start a <em>conversation</em></h2>
+      <p>I'm open to essay commissions, speaking invitations, editorial collaborations, and conversations about ideas that matter.</p>
+      <div class="contact-links" id="contact-links"></div>
+    </div>
+    <div>
+      <div class="contact-form" id="contactForm">
+        <div class="form-group"><label>Your name</label><input type="text" id="fname" placeholder="How should I address you?"></div>
+        <div class="form-group"><label>Email address</label><input type="email" id="femail" placeholder="your@email.com"></div>
+        <div class="form-group"><label>Subject</label><input type="text" id="fsubject" placeholder="Commission, speaking, other…"></div>
+        <div class="form-group"><label>Message</label><textarea id="fmessage" placeholder="What's on your mind?"></textarea></div>
+        <button class="submit-btn" onclick="handleSubmit()">Send message</button>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <p>Thank you for reaching out.</p>
+        <span>I'll be in touch within a few days.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Milan Patel</p>
+  <p>Science writer &amp; essayist</p>
+  <p><a href="admin.html">Admin</a></p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lb-close">Close ✕</div>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-caption"><p id="lb-title"></p><span id="lb-cat"></span></div>
+</div>
+
+<script>
+const DEFAULTS = {
+  posts: [
+    {id:1,num:'No. 01',category:'Education · AI',title:'The Last Classroom',desc:'AI is rewriting every profession on Earth. Education hasn\'t updated a single chapter.',url:'#'},
+    {id:2,num:'No. 02',category:'Technology · History',title:'The Candle Factory Problem',desc:'Why institutions built for one era collapse — or refuse to — in another.',url:'#'},
+    {id:3,num:'No. 03',category:'Cognitive science',title:'What We Memorize and Why',desc:'On the gap between information and understanding — and what it costs us.',url:'#'},
+    {id:4,num:'No. 04',category:'Artificial intelligence',title:'The Irreplaceable Human',desc:'Mapping the capacities that algorithms amplify rather than replace.',url:'#'},
+    {id:5,num:'No. 05',category:'Science · Society',title:'The Ten-Year Betrayal',desc:'A reckoning with what we ask of young people in the name of preparation.',url:'#'}
+  ],
+  contact: {email:'milan@milanpatel.com',twitter:'@milanpatel',linkedin:'linkedin.com/in/milanpatel'},
+  gallery: []
+};
+
+function getData(key){try{const d=localStorage.getItem('mp_'+key);return d?JSON.parse(d):DEFAULTS[key]}catch(e){return DEFAULTS[key]}}
+
+function renderPosts(){
+  const posts=getData('posts');
+  const el=document.getElementById('articles-list');
+  el.innerHTML=posts.map(p=>`
+    <a class="article-row" href="${p.url||'#'}">
+      <div class="art-num">${p.num}</div>
+      <div><div class="art-category">${p.category}</div><div class="art-title">${p.title}</div><div class="art-desc">${p.desc}</div></div>
+      <div class="art-arrow">→</div>
+    </a>`).join('');
+}
+
+function renderContact(){
+  const c=getData('contact');
+  const el=document.getElementById('contact-links');
+  el.innerHTML=`
+    <div class="contact-link-row"><span class="cl-label">Email</span>${c.email}</div>
+    <div class="contact-link-row"><span class="cl-label">Twitter</span>${c.twitter}</div>
+    <div class="contact-link-row"><span class="cl-label">LinkedIn</span>${c.linkedin}</div>`;
+}
+
+function renderGallery(){
+  const items=getData('gallery');
+  const el=document.getElementById('gallery-grid');
+  if(!items||items.length===0){
+    el.innerHTML=`<div style="grid-column:1/-1;padding:3rem;border:1px solid var(--line);text-align:center"><p style="font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase">No gallery images yet — add them via the admin panel</p></div>`;
+    return;
+  }
+  el.innerHTML=items.map((item,i)=>`
+    <div class="gallery-item" onclick="openLightbox(${i})">
+      <img src="${item.url}" alt="${item.title}" onerror="this.parentNode.innerHTML='<div class=gallery-placeholder><div class=gallery-placeholder-icon>IMG</div><div class=gallery-placeholder-text>${item.title}</div></div>'">
+      <div class="gallery-overlay"><div class="gallery-caption">${item.title}</div><div class="gallery-meta">${item.category}</div></div>
+    </div>`).join('');
+}
+
+function openLightbox(i){
+  const items=getData('gallery');
+  const item=items[i];
+  if(!item)return;
+  document.getElementById('lb-img').src=item.url;
+  document.getElementById('lb-title').textContent=item.title;
+  document.getElementById('lb-cat').textContent=item.category;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open')}
+
+function scroll2(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+function handleSubmit(){
+  const n=document.getElementById('fname').value.trim();
+  const e=document.getElementById('femail').value.trim();
+  const m=document.getElementById('fmessage').value.trim();
+  if(!n||!e||!m){alert('Please fill in name, email, and message.');return}
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible')});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade-in').forEach((el,i)=>{el.style.transitionDelay=(i%3)*.1+'s';observer.observe(el)});
+setTimeout(()=>{const h=document.querySelector('.hero .fade-in');if(h)h.classList.add('visible')},100);
+
+renderPosts();renderContact();renderGallery();
+</script>
+</body>
+</html>
