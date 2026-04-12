@@ -282,7 +282,7 @@ footer a:hover{color:var(--gold)}
 /* ── EMBEDDED DATA — edit via admin.html then re-upload ── */
 var SITE_DATA = {
   site:{bgColor:'#0b0b09',heroEyebrow:'Science writer & essayist',heroLine1:'Ideas that',heroItalic:'reshape',heroLine2:'the world',heroLine3:'deserve a clear voice.',heroSub:'I write about science, artificial intelligence, and the forces quietly rewriting how we learn, work, and think.',heroBtnText:'Read my work →',writingSectionTitle:'Writing',featuredId:1,navName:'Milan Patel',portraitUrl:''},
-  contact:{email:'milan@milanpatel.com',twitter:'@milanpatel',linkedin:'linkedin.com/in/milanpatel',extra:'',intro:"I'm open to essay commissions, speaking invitations, editorial collaborations, and conversations about ideas that matter."},
+  contact:{email:'milan@milanpatel.com',twitter:'@milanpatel',youtube:'',intro:"I'm open to essay commissions, speaking invitations, editorial collaborations, and conversations about ideas that matter.",socialLinks:[]},
   posts:[
     {id:1,num:'No. 01',category:'Education · AI',title:'The Last Classroom',desc:"AI is rewriting every profession on Earth. Education hasn't updated a single chapter.",coverUrl:'',body:"<p>Artificial intelligence can now diagnose diseases, write legal briefs, generate engineering blueprints, trade financial markets, and pass professional licensing exams — all faster, cheaper, and often more accurately than the human professionals who spent a decade training to do the same thing.</p><p>This is not a warning about the future. This is a description of Tuesday.</p><h2>The Candle Factory That Refused to Die</h2><p>Imagine a factory built in 1850 to manufacture candles. Every worker is trained to perfection — the wax blending, the wick-threading, the dipping, the drying. Then, one day, someone invents electricity. The factory does not close. The managers insist that it is still necessary.</p><blockquote>The modern classroom was never designed to create thinkers. It was engineered to produce compliance.</blockquote><p>The modern classroom — with its bells that ring like factory shifts, its rows of desks arranged like assembly stations — was built for a world that no longer exists.</p><h2>What Should Replace It</h2><p>The answer is a new philosophy — flexible, adaptive, human-centered — built on three pillars that no AI can replicate. Critical reasoning. Emotional intelligence. And AI fluency — not as a technical specialty, but as a fundamental literacy.</p><p>The children who will matter most in twenty years are not the ones who earned the highest marks in a system designed for the nineteenth century. They are the ones who, while doing what the system demanded, quietly built something the system could not measure.</p>"},
     {id:2,num:'No. 02',category:'Technology · History',title:'The Candle Factory Problem',desc:'Why institutions built for one era collapse — or refuse to — in another.',coverUrl:'',body:"<p>Every institution carries the DNA of the era that created it. The challenge is recognizing when that DNA has become a liability rather than an asset.</p><p>The candle factory metaphor is simple: an organization optimized for one technology, one era, one set of assumptions — that refuses to adapt when the world changes around it.</p><blockquote>Institutions don't fail because they stop working. They fail because they keep working — for a world that no longer exists.</blockquote><p>This is not a story about candles. It is a story about every organization that ever confused its method with its mission.</p>"},
@@ -365,10 +365,11 @@ function showMain(){closeArticle()}
 
 function renderContact(){
   const c=SITE_DATA.contact;
-  let html=`<div class="contact-link-row"><span class="cl-label">Email</span>${c.email}</div>
-    <div class="contact-link-row"><span class="cl-label">Twitter</span>${c.twitter}</div>
-    <div class="contact-link-row"><span class="cl-label">LinkedIn</span>${c.linkedin}</div>`;
-  if(c.extra)html+=`<div class="contact-link-row"><span class="cl-label">More</span>${c.extra}</div>`;
+  let html='';
+  if(c.email)html+=`<div class="contact-link-row"><span class="cl-label">Email</span>${c.email}</div>`;
+  if(c.twitter)html+=`<div class="contact-link-row"><span class="cl-label">Twitter</span>${c.twitter}</div>`;
+  if(c.youtube)html+=`<div class="contact-link-row"><span class="cl-label">YouTube</span><a href="${c.youtube}" target="_blank" style="color:inherit">${c.youtube.replace('https://','')}</a></div>`;
+  (c.socialLinks||[]).forEach(l=>{html+=`<div class="contact-link-row"><span class="cl-label">${l.platform}</span>${l.handle}</div>`;});
   g('contact-links').innerHTML=html;
   if(g('contact-intro'))g('contact-intro').textContent=c.intro||'';
 }
