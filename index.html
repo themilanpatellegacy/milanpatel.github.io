@@ -10,15 +10,11 @@
 :root{--bg:#0b0b09;--bg2:#111110;--bg3:#161614;--line:#222220;--line2:#2e2e2b;--text:#e8e3d8;--muted:#6b6860;--dim:#3a3a36;--gold:#c9a96e;--gold-dim:#8a6f3e;--serif:'Cormorant Garamond',Georgia,serif;--mono:'DM Mono',monospace}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--serif);font-weight:300;font-size:17px;line-height:1.7;overflow-x:hidden}
-
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;border-bottom:1px solid var(--line);background:rgba(11,11,9,0.95);backdrop-filter:blur(12px)}
 .nav-logo{font-family:var(--serif);font-size:1.05rem;font-weight:400;letter-spacing:.06em;color:var(--text);text-decoration:none;cursor:pointer}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
 .nav-links a{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .25s;cursor:pointer}
 .nav-links a:hover{color:var(--gold)}
-
-/* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;border-bottom:1px solid var(--line);overflow:hidden}
 .hero-bg-text{position:absolute;top:50%;left:-0.02em;transform:translateY(-50%);font-family:var(--serif);font-size:clamp(10rem,20vw,22rem);font-weight:300;font-style:italic;color:transparent;-webkit-text-stroke:1px var(--line2);line-height:1;white-space:nowrap;pointer-events:none;user-select:none;opacity:.6}
 .hero-content{position:relative;z-index:1;max-width:700px}
@@ -33,15 +29,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .hero-scroll span{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;writing-mode:vertical-rl}
 .scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,var(--dim),transparent);animation:scrollPulse 2s ease-in-out infinite}
 @keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
-
-/* SECTIONS */
 section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .section-header{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:4rem}
 .section-num{font-family:var(--mono);font-size:.65rem;color:var(--dim);letter-spacing:.1em}
 .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;color:var(--text);letter-spacing:-.01em}
 .section-line{flex:1;height:1px;background:var(--line)}
-
-/* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start}
 .about-portrait{position:relative;aspect-ratio:3/4;background:var(--bg3);border:1px solid var(--line);overflow:hidden}
 .portrait-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
@@ -54,8 +46,6 @@ section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .about-body p{color:#9b9690;font-size:1.05rem;line-height:1.8;margin-bottom:1.2rem;font-weight:300}
 .about-tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
 .about-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .9rem;border:1px solid var(--line2);color:var(--dim)}
-
-/* ARTICLES LIST */
 .featured-essay{background:var(--bg2);border:1px solid var(--line2);padding:3rem;margin-bottom:3rem;position:relative;overflow:hidden;cursor:pointer;transition:border-color .3s}
 .featured-essay:hover{border-color:var(--gold-dim)}
 .featured-essay::before{content:'"';position:absolute;top:-1rem;right:2rem;font-family:var(--serif);font-size:12rem;color:var(--line);line-height:1;pointer-events:none}
@@ -65,7 +55,6 @@ section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .featured-essay .feat-desc{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:580px;margin-bottom:1.5rem;font-weight:300}
 .feat-meta{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;display:flex;align-items:center;gap:1rem}
 .feat-read{color:var(--gold)}
-
 .articles{display:flex;flex-direction:column}
 .article-row{display:grid;grid-template-columns:80px 1fr auto;align-items:start;gap:2rem;padding:2.5rem 0;border-bottom:1px solid var(--line);cursor:pointer;transition:all .3s;text-decoration:none;color:inherit}
 .article-row:first-child{border-top:1px solid var(--line)}
@@ -76,8 +65,6 @@ section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .art-title{font-size:clamp(1.1rem,2vw,1.5rem);font-weight:400;color:var(--text);line-height:1.3;margin-bottom:.4rem;transition:color .25s}
 .art-desc{font-size:.9rem;color:var(--muted);line-height:1.5;font-weight:300;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .art-arrow{font-size:1.2rem;color:var(--gold);opacity:0;transform:translateX(-8px);transition:all .3s;padding-top:2px}
-
-/* ARTICLE FULL PAGE */
 .article-page{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto}
 .article-page.open{display:block}
 .ap-nav{position:sticky;top:0;background:rgba(11,11,9,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:1.25rem 3rem;display:flex;align-items:center;justify-content:space-between;z-index:10}
@@ -94,16 +81,12 @@ section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .ap-content{font-size:1.1rem;line-height:1.9;color:#b0aca4;font-weight:300}
 .ap-content p{margin-bottom:1.5rem}
 .ap-content h2{font-size:1.6rem;font-weight:300;color:var(--text);margin:3rem 0 1rem;font-style:italic}
-.ap-content h3{font-size:1.2rem;font-weight:400;color:var(--text);margin:2rem 0 .75rem;font-family:var(--mono);letter-spacing:.06em;font-size:.85rem;text-transform:uppercase}
 .ap-content blockquote{border-left:2px solid var(--gold-dim);padding:1rem 1.5rem;margin:2rem 0;font-style:italic;color:var(--muted);font-size:1.15rem}
 .ap-content img{width:100%;height:auto;max-height:500px;object-fit:cover;border:1px solid var(--line);margin:2rem 0;display:block}
-.ap-content .img-caption{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-top:-1.5rem;margin-bottom:2rem}
 .ap-content a{color:var(--gold);text-decoration:none}
 .ap-content a:hover{text-decoration:underline}
 .ap-footer{margin-top:5rem;padding-top:2rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
 .ap-footer span{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
-
-/* GALLERY */
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
 .gallery-item{position:relative;background:var(--bg3);border:1px solid var(--line);overflow:hidden;cursor:pointer}
 .gallery-item.type-image,.gallery-item.type-upload{aspect-ratio:4/3}
@@ -120,8 +103,6 @@ section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .yt-play::after{content:'';border-left:18px solid var(--bg);border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:4px}
 .gallery-empty{grid-column:1/-1;padding:3rem;border:1px solid var(--line);text-align:center}
 .gallery-empty p{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
-
-/* SOCIAL CARD */
 .social-card{width:100%;height:100%;display:flex;flex-direction:column;background:var(--bg3)}
 .social-card-thumb{flex:1;overflow:hidden}
 .social-card-thumb img{width:100%;height:100%;object-fit:cover}
@@ -129,8 +110,6 @@ section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .social-card-bar{padding:.6rem .85rem;background:var(--bg2);border-top:1px solid var(--line);display:flex;align-items:center;gap:.5rem;flex-shrink:0}
 .social-platform-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
 .social-platform-name{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-
-/* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(5,5,4,.97);align-items:center;justify-content:center}
 .lightbox.open{display:flex}
 .lb-media{max-width:90vw;max-height:85vh;object-fit:contain;border:1px solid var(--line)}
@@ -140,8 +119,6 @@ section{padding:6rem 3rem;border-bottom:1px solid var(--line)}
 .lb-caption{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}
 .lb-caption p{font-size:1rem;color:var(--text);font-style:italic}
 .lb-caption span{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
-
-/* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start}
 .contact-left h2{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;line-height:1.2;color:var(--text);margin-bottom:1.5rem}
 .contact-left h2 em{font-style:italic;color:var(--gold)}
@@ -172,7 +149,6 @@ footer a:hover{color:var(--gold)}
 </style>
 </head>
 <body>
-
 <nav>
   <span class="nav-logo" onclick="showMain()" id="nav-logo">Milan Patel</span>
   <ul class="nav-links">
@@ -182,8 +158,6 @@ footer a:hover{color:var(--gold)}
     <li><a onclick="showMain();setTimeout(()=>scroll2('contact'),100)">Contact</a></li>
   </ul>
 </nav>
-
-<!-- MAIN SITE -->
 <div id="main-site">
 <div class="hero">
   <div class="hero-bg-text" id="hero-bg-text">Milan</div>
@@ -195,7 +169,6 @@ footer a:hover{color:var(--gold)}
   </div>
   <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
 </div>
-
 <section id="about">
   <div class="section-header fade-in"><span class="section-num">01</span><h2 class="section-title">About</h2><div class="section-line"></div></div>
   <div class="about-grid fade-in">
@@ -212,17 +185,14 @@ footer a:hover{color:var(--gold)}
     </div>
   </div>
 </section>
-
 <section id="writing">
   <div class="section-header fade-in"><span class="section-num">02</span><h2 class="section-title" id="writing-section-title">Writing</h2><div class="section-line"></div></div>
   <div id="writing-content" class="fade-in"></div>
 </section>
-
 <section id="gallery">
   <div class="section-header fade-in"><span class="section-num">03</span><h2 class="section-title">Gallery</h2><div class="section-line"></div></div>
   <div class="gallery-grid fade-in" id="gallery-grid"></div>
 </section>
-
 <section id="contact">
   <div class="section-header fade-in"><span class="section-num">04</span><h2 class="section-title">Contact</h2><div class="section-line"></div></div>
   <div class="contact-grid fade-in">
@@ -247,15 +217,12 @@ footer a:hover{color:var(--gold)}
     </div>
   </div>
 </section>
-
 <footer>
   <p id="footer-name">© 2026 Milan Patel</p>
   <p>Science writer &amp; essayist</p>
   <p><a href="admin.html">Admin</a></p>
 </footer>
-</div><!-- end main-site -->
-
-<!-- ARTICLE FULL PAGE -->
+</div>
 <div class="article-page" id="article-page">
   <div class="ap-nav">
     <button class="ap-back" onclick="closeArticle()">← Back to writing</button>
@@ -273,32 +240,26 @@ footer a:hover{color:var(--gold)}
     </div>
   </div>
 </div>
-
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <button class="lb-close" onclick="closeLightbox()">Close ✕</button>
   <img class="lb-media" id="lb-img" src="" alt="" style="display:none">
   <iframe class="lb-iframe" id="lb-iframe" src="" allowfullscreen style="display:none"></iframe>
   <div class="lb-caption"><p id="lb-title"></p><span id="lb-cat"></span></div>
 </div>
-
 <script>
-/* ── EMBEDDED DATA — edit via admin.html then re-upload ── */
 var SITE_DATA = {
   site:{bgColor:'#0b0b09',heroEyebrow:'Science writer & essayist',heroLine1:'Ideas that',heroItalic:'reshape',heroLine2:'the world',heroLine3:'deserve a clear voice.',heroSub:'I write about science, artificial intelligence, and the forces quietly rewriting how we learn, work, and think.',heroBtnText:'Read my work →',writingSectionTitle:'Writing',featuredId:1,navName:'Milan Patel',portraitUrl:''},
   contact:{email:'milan@milanpatel.com',twitter:'@milanpatel',youtube:'',intro:"I'm open to essay commissions, speaking invitations, editorial collaborations, and conversations about ideas that matter.",socialLinks:[]},
   posts:[
     {id:1,num:'No. 01',category:'Education · AI',title:'The Last Classroom',desc:"AI is rewriting every profession on Earth. Education hasn't updated a single chapter.",coverUrl:'',body:"<p>Artificial intelligence can now diagnose diseases, write legal briefs, generate engineering blueprints, trade financial markets, and pass professional licensing exams — all faster, cheaper, and often more accurately than the human professionals who spent a decade training to do the same thing.</p><p>This is not a warning about the future. This is a description of Tuesday.</p><h2>The Candle Factory That Refused to Die</h2><p>Imagine a factory built in 1850 to manufacture candles. Every worker is trained to perfection — the wax blending, the wick-threading, the dipping, the drying. Then, one day, someone invents electricity. The factory does not close. The managers insist that it is still necessary.</p><blockquote>The modern classroom was never designed to create thinkers. It was engineered to produce compliance.</blockquote><p>The modern classroom — with its bells that ring like factory shifts, its rows of desks arranged like assembly stations — was built for a world that no longer exists.</p><h2>What Should Replace It</h2><p>The answer is a new philosophy — flexible, adaptive, human-centered — built on three pillars that no AI can replicate. Critical reasoning. Emotional intelligence. And AI fluency — not as a technical specialty, but as a fundamental literacy.</p><p>The children who will matter most in twenty years are not the ones who earned the highest marks in a system designed for the nineteenth century. They are the ones who, while doing what the system demanded, quietly built something the system could not measure.</p>"},
-    {id:2,num:'No. 02',category:'Technology · History',title:'The Candle Factory Problem',desc:'Why institutions built for one era collapse — or refuse to — in another.',coverUrl:'',body:"<p>Every institution carries the DNA of the era that created it. The challenge is recognizing when that DNA has become a liability rather than an asset.</p><p>The candle factory metaphor is simple: an organization optimized for one technology, one era, one set of assumptions — that refuses to adapt when the world changes around it.</p><blockquote>Institutions don't fail because they stop working. They fail because they keep working — for a world that no longer exists.</blockquote><p>This is not a story about candles. It is a story about every organization that ever confused its method with its mission.</p>"},
-    {id:3,num:'No. 03',category:'Cognitive science',title:'What We Memorize and Why',desc:'On the gap between information and understanding — and what it costs us.',coverUrl:'',body:"<p>There is a child in a classroom right now, memorizing the boiling point of water for a test they will take on Friday and forget by Saturday. The teacher knows this. The child knows this. And yet both show up on Thursday to rehearse the ritual one more time.</p><p>The question is not whether memorization is useful. It is. The question is what we sacrifice when we treat it as an end rather than a means.</p><blockquote>Memory is not understanding. It is the scaffolding that understanding climbs.</blockquote>"},
-    {id:4,num:'No. 04',category:'Artificial intelligence',title:'The Irreplaceable Human',desc:'Mapping the capacities that algorithms amplify rather than replace.',coverUrl:'',body:"<p>Every conversation about AI and jobs eventually arrives at the same question: what can humans do that machines cannot? It is the wrong question. The right question is: what can humans do that machines make more valuable?</p><p>The answer is not a list of tasks. It is a mode of being — present, contextual, emotionally resonant, ethically accountable.</p>"},
-    {id:5,num:'No. 05',category:'Science · Society',title:'The Ten-Year Betrayal',desc:'A reckoning with what we ask of young people in the name of preparation.',coverUrl:'',body:"<p>Let us talk about the doctor. Not as a symbol, but as a real human being who is being asked to spend the best decade of their life becoming obsolete. Five years of medical school. Two years of post-graduation. Two to three years of specialization. Ten years, minimum.</p><p>Ten years of predawn study sessions, of debt accumulating, of youth compressed into cramped libraries — all to master a body of knowledge that AI can now access and apply in milliseconds.</p><blockquote>The gap between what schools teach and what the world needs is not closing. It is accelerating.</blockquote>"}
+    {id:2,num:'No. 02',category:'Technology · History',title:'The Candle Factory Problem',desc:'Why institutions built for one era collapse — or refuse to — in another.',coverUrl:'',body:"<p>Every institution carries the DNA of the era that created it. The challenge is recognizing when that DNA has become a liability rather than an asset.</p><blockquote>Institutions don't fail because they stop working. They fail because they keep working — for a world that no longer exists.</blockquote>"},
+    {id:3,num:'No. 03',category:'Cognitive science',title:'What We Memorize and Why',desc:'On the gap between information and understanding — and what it costs us.',coverUrl:'',body:"<p>There is a child in a classroom right now, memorizing the boiling point of water for a test they will take on Friday and forget by Saturday.</p><blockquote>Memory is not understanding. It is the scaffolding that understanding climbs.</blockquote>"},
+    {id:4,num:'No. 04',category:'Artificial intelligence',title:'The Irreplaceable Human',desc:'Mapping the capacities that algorithms amplify rather than replace.',coverUrl:'',body:"<p>Every conversation about AI and jobs eventually arrives at the same question: what can humans do that machines cannot? It is the wrong question.</p>"},
+    {id:5,num:'No. 05',category:'Science · Society',title:'The Ten-Year Betrayal',desc:'A reckoning with what we ask of young people in the name of preparation.',coverUrl:'',body:"<p>Let us talk about the doctor. Not as a symbol, but as a real human being who is being asked to spend the best decade of their life becoming obsolete.</p><blockquote>The gap between what schools teach and what the world needs is not closing. It is accelerating.</blockquote>"}
   ],
   gallery:[]
 };
-
 function g(id){return document.getElementById(id)}
-
 function applySettings(){
   const s=SITE_DATA.site;
   document.documentElement.style.setProperty('--bg',s.bgColor||'#0b0b09');
@@ -316,7 +277,6 @@ function applySettings(){
   if(g('footer-name'))g('footer-name').textContent='© 2026 '+(s.navName||'Milan Patel');
   if(s.portraitUrl&&g('portrait-inner'))g('portrait-inner').innerHTML=`<img class="portrait-img" src="${s.portraitUrl}" alt="Portrait">`;
 }
-
 function renderWriting(){
   const posts=SITE_DATA.posts;
   const featId=SITE_DATA.site.featuredId||1;
@@ -325,8 +285,8 @@ function renderWriting(){
   let html='';
   if(feat){
     html+=`<div class="featured-essay" onclick="openArticle(${feat.id})">
-      ${feat.coverUrl?`<img src="${feat.coverUrl}" style="width:100%;height:200px;object-fit:cover;margin-bottom:1.5rem;border:1px solid var(--line)" alt="">`:''}
-      <div class="featured-badge">Featured</div>
+      ${feat.coverUrl?`<img src="${feat.coverUrl}" style="width:100%;height:200px;object-fit:cover;margin-bottom:1.5rem;border:1px solid var(--line)" alt="">`:''}`+
+      `<div class="featured-badge">Featured</div>
       <h3>${feat.title}</h3>
       <p class="feat-desc">${feat.desc}</p>
       <div class="feat-meta"><span>${feat.category}</span><span class="feat-read">Read full article →</span></div>
@@ -336,50 +296,38 @@ function renderWriting(){
     html+='<div class="articles">'+rest.map(p=>`
       <div class="article-row" onclick="openArticle(${p.id})">
         <div class="art-num">${p.num}</div>
-        <div>
-          <div class="art-category">${p.category}</div>
-          <div class="art-title">${p.title}</div>
-          <div class="art-desc">${p.desc}</div>
-        </div>
+        <div><div class="art-category">${p.category}</div><div class="art-title">${p.title}</div><div class="art-desc">${p.desc}</div></div>
         <div class="art-arrow">→</div>
       </div>`).join('')+'</div>';
   }
   g('writing-content').innerHTML=html;
 }
-
 function openArticle(id){
   const post=SITE_DATA.posts.find(p=>p.id===id);if(!post)return;
-  const s=SITE_DATA.site;
   g('ap-eyebrow').textContent=post.category;
   g('ap-title').innerHTML=post.title;
   g('ap-subtitle').textContent=post.desc;
   let content='';
   if(post.coverUrl)content+=`<img src="${post.coverUrl}" alt="${post.title}">`;
-  content+=post.body||'<p>No content yet. Add it via the admin panel.</p>';
+  content+=post.body||'<p>No content yet.</p>';
   g('ap-content').innerHTML=content;
   g('article-page').classList.add('open');
   g('article-page').scrollTop=0;
   document.body.style.overflow='hidden';
 }
-function closeArticle(){
-  g('article-page').classList.remove('open');
-  document.body.style.overflow='';
-}
+function closeArticle(){g('article-page').classList.remove('open');document.body.style.overflow='';}
 function showMain(){closeArticle()}
-
 function renderContact(){
   const c=SITE_DATA.contact;
   let html='';
   if(c.email)html+=`<div class="contact-link-row"><span class="cl-label">Email</span>${c.email}</div>`;
   if(c.twitter)html+=`<div class="contact-link-row"><span class="cl-label">Twitter</span>${c.twitter}</div>`;
-  if(c.youtube)html+=`<div class="contact-link-row"><span class="cl-label">YouTube</span><a href="${c.youtube}" target="_blank" style="color:inherit">${c.youtube.replace('https://','')}</a></div>`;
+  if(c.youtube)html+=`<div class="contact-link-row"><span class="cl-label">YouTube</span>${c.youtube}</div>`;
   (c.socialLinks||[]).forEach(l=>{html+=`<div class="contact-link-row"><span class="cl-label">${l.platform}</span>${l.handle}</div>`;});
   g('contact-links').innerHTML=html;
   if(g('contact-intro'))g('contact-intro').textContent=c.intro||'';
 }
-
 function extractYoutubeId(url){const m=(url||'').match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);return m?m[1]:''}
-
 function renderGallery(){
   const items=SITE_DATA.gallery;
   const el=g('gallery-grid');
@@ -388,50 +336,27 @@ function renderGallery(){
     const type=item.type||'image';
     if(type==='youtube'){
       const vid=extractYoutubeId(item.url);
-      return `<div class="gallery-item type-youtube" onclick="openLightbox(${i})">
-        <img src="https://img.youtube.com/vi/${vid}/maxresdefault.jpg" alt="${item.title}" onerror="this.src='https://img.youtube.com/vi/${vid}/hqdefault.jpg'">
-        <div class="yt-play"></div>
-        <div class="gallery-badge">YouTube</div>
-        <div class="gallery-overlay"><div class="gallery-caption">${item.title}</div><div class="gallery-meta">${item.category||''}</div></div>
-      </div>`;
+      return `<div class="gallery-item type-youtube" onclick="openLightbox(${i})"><img src="https://img.youtube.com/vi/${vid}/maxresdefault.jpg" alt="${item.title}" onerror="this.src='https://img.youtube.com/vi/${vid}/hqdefault.jpg'"><div class="yt-play"></div><div class="gallery-badge">YouTube</div><div class="gallery-overlay"><div class="gallery-caption">${item.title}</div><div class="gallery-meta">${item.category||''}</div></div></div>`;
     }
     if(type==='social'){
       const thumb=item.thumb||'';
-      return `<div class="gallery-item type-social" onclick="openLightbox(${i})" style="aspect-ratio:16/9">
-        <div class="social-card">
-          <div class="social-card-thumb ${thumb?'':'no-img'}">${thumb?`<img src="${thumb}" alt="${item.title}">`:`<span style="font-family:var(--mono);font-size:.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em">${item.platform||'Post'}</span>`}</div>
-          <div class="social-card-bar"><div class="social-platform-dot"></div><span class="social-platform-name">${item.platform||'Social'}</span><span style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-left:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%">${item.title}</span></div>
-        </div>
-        <div class="gallery-overlay"><div class="gallery-caption">${item.title}</div><div class="gallery-meta">${item.platform||'Social'} · ${item.category||''}</div></div>
-      </div>`;
+      return `<div class="gallery-item type-social" onclick="openLightbox(${i})"><div class="social-card"><div class="social-card-thumb ${thumb?'':'no-img'}">${thumb?`<img src="${thumb}" alt="${item.title}">`:''}</div><div class="social-card-bar"><div class="social-platform-dot"></div><span class="social-platform-name">${item.platform||'Social'}</span></div></div><div class="gallery-overlay"><div class="gallery-caption">${item.title}</div><div class="gallery-meta">${item.platform||''}</div></div></div>`;
     }
-    return `<div class="gallery-item type-image" onclick="openLightbox(${i})">
-      <img src="${item.url}" alt="${item.title}" onerror="this.style.opacity='.2'">
-      <div class="gallery-overlay"><div class="gallery-caption">${item.title}</div><div class="gallery-meta">${item.category||''}</div></div>
-    </div>`;
+    return `<div class="gallery-item type-image" onclick="openLightbox(${i})"><img src="${item.url}" alt="${item.title}"><div class="gallery-overlay"><div class="gallery-caption">${item.title}</div><div class="gallery-meta">${item.category||''}</div></div></div>`;
   }).join('');
 }
-
 function openLightbox(i){
   const item=SITE_DATA.gallery[i];if(!item)return;
   const type=item.type||'image';
   g('lb-title').textContent=item.title;g('lb-cat').textContent=item.category||'';
-  if(type==='youtube'){
-    const vid=extractYoutubeId(item.url);
-    g('lb-iframe').src=`https://www.youtube.com/embed/${vid}?autoplay=1`;
-    g('lb-img').style.display='none';g('lb-iframe').style.display='block';
-  } else if(type==='social'){
-    window.open(item.url,'_blank');return;
-  } else {
-    g('lb-img').src=item.url;g('lb-img').style.display='block';g('lb-iframe').style.display='none';
-  }
+  if(type==='youtube'){const vid=extractYoutubeId(item.url);g('lb-iframe').src=`https://www.youtube.com/embed/${vid}?autoplay=1`;g('lb-img').style.display='none';g('lb-iframe').style.display='block';}
+  else if(type==='social'){window.open(item.url,'_blank');return;}
+  else{g('lb-img').src=item.url;g('lb-img').style.display='block';g('lb-iframe').style.display='none';}
   g('lightbox').classList.add('open');
 }
 function closeLightbox(){g('lightbox').classList.remove('open');g('lb-iframe').src=''}
 g('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox()});
-
 function scroll2(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
-
 async function handleSubmit(e){
   e.preventDefault();
   const btn=g('submit-btn');
@@ -440,23 +365,13 @@ async function handleSubmit(e){
   try{
     const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:formData});
     const data=await res.json();
-    if(data.success){
-      g('contactForm').style.display='none';
-      g('formSuccess').style.display='block';
-    } else {
-      btn.textContent='Send message';btn.disabled=false;
-      alert('Something went wrong. Please try again.');
-    }
-  } catch(err){
-    btn.textContent='Send message';btn.disabled=false;
-    alert('Could not send message. Please check your connection.');
-  }
+    if(data.success){g('contactForm').style.display='none';g('formSuccess').style.display='block';}
+    else{btn.textContent='Send message';btn.disabled=false;alert('Something went wrong. Please try again.');}
+  }catch(err){btn.textContent='Send message';btn.disabled=false;alert('Could not send. Check your connection.');}
 }
-
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.fade-in').forEach((el,i)=>{el.style.transitionDelay=(i%3)*.1+'s';observer.observe(el)});
 setTimeout(()=>{const h=document.querySelector('.hero .fade-in');if(h)h.classList.add('visible')},100);
-
 applySettings();renderWriting();renderContact();renderGallery();
 </script>
 </body>
