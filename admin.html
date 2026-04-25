@@ -401,7 +401,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
       <div class="f">
         <label>Upload your document</label>
         <div class="upload-zone" id="doc-upload-zone" onclick="document.getElementById('doc-file-input').click()" style="padding:2rem;position:relative;transition:border-color .2s">
-          <input type="file" id="doc-file-input" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleDocUpload(event)" style="display:none">
+          <input type="file" id="doc-file-input" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleDocUpload(event)">
           <div id="doc-upload-label" style="font-size:.62rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:.3rem">Click or drag & drop to upload PDF or Word document</div>
           <span id="doc-upload-sub" style="font-size:.58rem;color:var(--dim)">PDF, DOC, DOCX — your design &amp; layout is preserved exactly</span>
         </div>
