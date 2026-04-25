@@ -129,7 +129,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
       <div class="card">
         <div class="card-title">Quick actions</div>
         <div class="brow">
-          <button class="bp" onclick="showTab('posts',document.querySelectorAll('.ni')[2]);openAddPost()">+ New article</button>
+          <button class="bp" onclick="showTab('posts',document.querySelectorAll('.ni')[2]);openAddPost('write')">+ New article</button>
           <button class="bp" onclick="showTab('gallery',document.querySelectorAll('.ni')[3])">+ Add to gallery</button>
           <button class="bp" onclick="showTab('hero',document.querySelectorAll('.ni')[1])">Edit hero text</button>
           <button class="bs" onclick="showTab('style',document.querySelectorAll('.ni')[5])">Change background</button>
@@ -186,14 +186,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
 
   <!-- POSTS -->
   <div class="tab" id="tab-posts">
-    <div class="ph"><h2 class="pt">Articles</h2><button class="bp" onclick="openAddPost()">+ Write new article</button></div>
+    <div class="ph"><h2 class="pt">Articles</h2><div style="display:flex;gap:.5rem"><button class="bp" onclick="openAddPost('write')">✎ Write article</button><button class="bp" style="border-color:var(--green-dim);color:var(--green)" onclick="openAddPost('file')">⬆ Upload file</button></div></div>
     <div class="pc">
-      <div style="background:var(--bg3);border:1px solid var(--gold-dim);padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-        <div>
-          <p style="font-size:.7rem;color:var(--gold);letter-spacing:.08em;margin-bottom:.2rem">Ready to write?</p>
-          <p style="font-size:.62rem;color:var(--muted)">Click the button to write a new article — add title, description, cover image and full text.</p>
+      <div style="background:var(--bg3);border:1px solid var(--line2);padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div style="border-right:1px solid var(--line2);padding-right:1rem">
+          <p style="font-size:.62rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem">✎ Write article</p>
+          <p style="font-size:.6rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem">Compose directly in the editor — add title, cover image, rich text body with headings, quotes, and images.</p>
+          <button class="bp" onclick="openAddPost('write')">+ Write new article</button>
         </div>
-        <button class="bp" style="flex-shrink:0;font-size:.75rem;padding:.7rem 1.8rem" onclick="openAddPost()">+ Write new article</button>
+        <div style="padding-left:.25rem">
+          <p style="font-size:.62rem;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem">⬆ Upload file</p>
+          <p style="font-size:.6rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem">Upload a PDF or Word document — your exact design and formatting is preserved and displayed on the live site.</p>
+          <button class="bp" style="border-color:var(--green-dim);color:var(--green)" onclick="openAddPost('file')">+ Upload PDF / DOCX</button>
+        </div>
       </div>
       <div class="card" style="padding:0"><div id="posts-list"></div></div>
     </div>
@@ -352,15 +357,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
 
 <!-- POST MODAL -->
 <div class="ov" id="post-ov">
-  <div class="om">
+  <div class="om" style="max-width:760px">
     <div class="omh"><span class="omt" id="post-modal-title">Add article</span><button class="omc" onclick="closePostModal()">Close ✕</button></div>
     <input type="hidden" id="edit-id">
+    <input type="hidden" id="edit-content-type" value="write">
+
+    <!-- MODE SWITCHER -->
+    <div id="mode-switcher" style="display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--line2)">
+      <button id="mode-write-btn" onclick="switchPostMode('write')" style="flex:1;padding:.65rem;background:var(--gold);color:var(--bg);font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s">✎ Write article</button>
+      <button id="mode-file-btn" onclick="switchPostMode('file')" style="flex:1;padding:.65rem;background:transparent;color:var(--muted);font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s">⬆ Upload file (PDF / DOCX)</button>
+    </div>
+
+    <!-- SHARED META FIELDS -->
     <div class="f2">
       <div class="f"><label>Number label</label><input type="text" id="edit-num" placeholder="No. 01"></div>
       <div class="f"><label>Category</label><input type="text" id="edit-cat" placeholder="Science · AI"></div>
     </div>
     <div class="f"><label>Title</label><input type="text" id="edit-title" placeholder="Article title"></div>
     <div class="f"><label>Short description (shown on homepage)</label><textarea id="edit-desc" placeholder="1–2 sentences that tease the article…"></textarea></div>
+
+    <!-- COVER IMAGE (shared) -->
     <div class="f">
       <label>Cover image — upload or paste URL</label>
       <div class="upload-zone" onclick="document.getElementById('cover-upload').click()">
@@ -370,12 +386,47 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
       <img id="cover-preview" class="img-preview" style="display:none" alt="">
       <input type="url" id="edit-cover-url" placeholder="Or paste image URL…" style="margin-top:.5rem;background:var(--bg3);border:1px solid var(--line2);color:var(--text);font-family:var(--mono);font-size:.75rem;padding:.6rem .85rem;outline:none;width:100%">
     </div>
-    <div class="f">
-      <label>Full article body</label>
-      <p class="hint" style="margin-bottom:.5rem">Write your full article here. Use blank lines between paragraphs. You can use HTML tags: <code>&lt;h2&gt;</code> for headings, <code>&lt;blockquote&gt;</code> for quotes, <code>&lt;img src="..."&gt;</code> for images inside the article.</p>
-      <textarea class="article-body" id="edit-body" placeholder="Write your full article here...&#10;&#10;Use blank lines between paragraphs.&#10;&#10;Add headings with: &lt;h2&gt;Section Title&lt;/h2&gt;&#10;Add quotes with: &lt;blockquote&gt;Quote text&lt;/blockquote&gt;&#10;Add images with: &lt;img src=&quot;https://...&quot;&gt;"></textarea>
+
+    <!-- WRITE MODE -->
+    <div id="post-write-panel">
+      <div class="f">
+        <label>Full article body</label>
+        <p class="hint" style="margin-bottom:.5rem">Write your full article here. Use blank lines between paragraphs. You can use HTML tags: <code>&lt;h2&gt;</code> for headings, <code>&lt;blockquote&gt;</code> for quotes, <code>&lt;img src="..."&gt;</code> for images inside the article.</p>
+        <textarea class="article-body" id="edit-body" placeholder="Write your full article here...&#10;&#10;Use blank lines between paragraphs.&#10;&#10;Add headings with: &lt;h2&gt;Section Title&lt;/h2&gt;&#10;Add quotes with: &lt;blockquote&gt;Quote text&lt;/blockquote&gt;&#10;Add images with: &lt;img src=&quot;https://...&quot;&gt;"></textarea>
+      </div>
     </div>
-    <div class="brow"><button class="bg" onclick="savePost()">Save article</button><button class="bs" onclick="closePostModal()">Cancel</button></div>
+
+    <!-- FILE UPLOAD MODE -->
+    <div id="post-file-panel" style="display:none">
+      <div class="f">
+        <label>Upload your document</label>
+        <div class="upload-zone" id="doc-upload-zone" onclick="document.getElementById('doc-file-input').click()" style="padding:2rem;position:relative">
+          <input type="file" id="doc-file-input" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleDocUpload(event)" style="display:none">
+          <p id="doc-upload-label">Click to upload PDF or Word document</p>
+          <span id="doc-upload-sub">PDF, DOC, DOCX — your design & layout is preserved exactly</span>
+        </div>
+        <div id="doc-file-info" style="display:none;margin-top:.75rem;background:var(--bg3);border:1px solid var(--green-dim);padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem">
+          <span id="doc-file-icon" style="font-size:1.1rem">📄</span>
+          <div style="flex:1;min-width:0">
+            <div id="doc-file-name" style="font-size:.72rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+            <div id="doc-file-size" style="font-size:.58rem;color:var(--green);letter-spacing:.08em;text-transform:uppercase;margin-top:.15rem"></div>
+          </div>
+          <button class="br" onclick="clearDocUpload()" style="flex-shrink:0">Remove</button>
+        </div>
+        <input type="hidden" id="edit-doc-data">
+        <input type="hidden" id="edit-doc-name">
+        <input type="hidden" id="edit-doc-type">
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--line2);padding:1rem 1.25rem;margin-top:.25rem">
+        <p style="font-size:.62rem;color:var(--gold);letter-spacing:.08em;margin-bottom:.5rem">✦ How file articles work on your live site</p>
+        <p style="font-size:.6rem;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">PDF files</strong> — displayed as a full embedded PDF viewer. Your exact layout, fonts, and formatting appear as designed.<br><strong style="color:var(--text)">Word DOCX files</strong> — rendered as a formatted article using your document's headings, paragraphs, and structure — styled in your site's elegant typography.</p>
+      </div>
+    </div>
+
+    <div class="brow" style="margin-top:1.25rem">
+      <button class="bg" onclick="savePost()">Save article</button>
+      <button class="bs" onclick="closePostModal()">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -454,34 +505,120 @@ function saveHero(){
 
 /* POSTS */
 function renderPosts(){
-  g('posts-list').innerHTML=DATA.posts.length?DATA.posts.map(p=>`<div class="pi"><div class="pn">${p.num}</div><div><div class="pt2">${p.title}</div><div class="pc2">${p.category}</div></div><div class="pa"><button class="bs" onclick="editPost(${p.id})">Edit</button><button class="br" onclick="deletePost(${p.id})">Del</button></div></div>`).join(''):'<div style="padding:2rem;text-align:center;color:var(--dim);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase">No articles yet</div>';
+  g('posts-list').innerHTML=DATA.posts.length?DATA.posts.map(p=>{
+    const isFile=p.contentType==='file';
+    const badge=isFile?`<span style="font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .45rem;background:var(--bg);border:1px solid var(--green-dim);color:var(--green);margin-left:.5rem">${(p.docType||'file').toUpperCase()}</span>`:'';
+    return `<div class="pi"><div class="pn">${p.num}</div><div><div class="pt2">${p.title}${badge}</div><div class="pc2">${p.category}</div></div><div class="pa"><button class="bs" onclick="editPost(${p.id})">Edit</button><button class="br" onclick="deletePost(${p.id})">Del</button></div></div>`;
+  }).join(''):'<div style="padding:2rem;text-align:center;color:var(--dim);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase">No articles yet</div>';
 }
-function openAddPost(){
+
+function switchPostMode(mode){
+  g('edit-content-type').value=mode;
+  if(mode==='write'){
+    g('post-write-panel').style.display='';
+    g('post-file-panel').style.display='none';
+    g('mode-write-btn').style.background='var(--gold)';g('mode-write-btn').style.color='var(--bg)';
+    g('mode-file-btn').style.background='transparent';g('mode-file-btn').style.color='var(--muted)';
+  } else {
+    g('post-write-panel').style.display='none';
+    g('post-file-panel').style.display='';
+    g('mode-file-btn').style.background='var(--green)';g('mode-file-btn').style.color='var(--bg)';
+    g('mode-write-btn').style.background='transparent';g('mode-write-btn').style.color='var(--muted)';
+  }
+}
+
+function openAddPost(mode){
+  mode=mode||'write';
   g('post-modal-title').textContent='Add article';g('edit-id').value='';
-  ['edit-num','edit-cat','edit-title','edit-desc','edit-body','edit-cover-url'].forEach(id=>g(id).value='');
+  ['edit-num','edit-cat','edit-title','edit-desc','edit-body','edit-cover-url','edit-doc-data','edit-doc-name','edit-doc-type'].forEach(id=>g(id).value='');
   g('cover-preview').style.display='none';
+  clearDocUpload();
+  switchPostMode(mode);
+  g('mode-switcher').style.display='flex';
   g('post-ov').classList.add('open');
 }
+
 function editPost(id){
   const p=DATA.posts.find(x=>x.id===id);if(!p)return;
+  const isFile=p.contentType==='file';
   g('post-modal-title').textContent='Edit article';g('edit-id').value=p.id;
   g('edit-num').value=p.num;g('edit-cat').value=p.category;g('edit-title').value=p.title;
-  g('edit-desc').value=p.desc;g('edit-body').value=p.body||'';g('edit-cover-url').value=p.coverUrl||'';
+  g('edit-desc').value=p.desc;g('edit-cover-url').value=p.coverUrl||'';
   if(p.coverUrl){g('cover-preview').src=p.coverUrl;g('cover-preview').style.display='block';}else g('cover-preview').style.display='none';
+  if(isFile){
+    g('edit-doc-data').value=p.docData||'';
+    g('edit-doc-name').value=p.docName||'';
+    g('edit-doc-type').value=p.docType||'';
+    if(p.docName){
+      g('doc-file-info').style.display='flex';
+      g('doc-file-name').textContent=p.docName;
+      g('doc-file-icon').textContent=p.docType==='pdf'?'📕':'📘';
+      g('doc-file-size').textContent='Previously uploaded — upload again to replace';
+    }
+    switchPostMode('file');
+  } else {
+    g('edit-body').value=p.body||'';
+    switchPostMode('write');
+  }
+  g('mode-switcher').style.display='flex';
   g('post-ov').classList.add('open');
 }
+
 function savePost(){
   const id=g('edit-id').value,title=g('edit-title').value.trim();
   if(!title){alert('Title required');return}
-  /* Convert plain text body (newlines) to paragraphs if no HTML tags */
-  let body=g('edit-body').value.trim();
-  if(body&&!body.includes('<')){body=body.split(/\n\s*\n/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('')}
-  const obj={id:id?parseInt(id):(DATA.posts.length?Math.max(...DATA.posts.map(p=>p.id))+1:1),num:g('edit-num').value.trim(),category:g('edit-cat').value.trim(),title,desc:g('edit-desc').value.trim(),coverUrl:g('edit-cover-url').value.trim(),body};
+  const mode=g('edit-content-type').value;
+  let obj={
+    id:id?parseInt(id):(DATA.posts.length?Math.max(...DATA.posts.map(p=>p.id))+1:1),
+    num:g('edit-num').value.trim(),
+    category:g('edit-cat').value.trim(),
+    title,
+    desc:g('edit-desc').value.trim(),
+    coverUrl:g('edit-cover-url').value.trim(),
+    contentType:mode
+  };
+  if(mode==='file'){
+    const docData=g('edit-doc-data').value;
+    const docName=g('edit-doc-name').value;
+    if(!docData&&!docName){alert('Please upload a PDF or Word document.');return}
+    obj.docData=docData;obj.docName=docName;obj.docType=g('edit-doc-type').value;
+    obj.body='';
+  } else {
+    let body=g('edit-body').value.trim();
+    if(body&&!body.includes('<')){body=body.split(/\n\s*\n/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('')}
+    obj.body=body;
+  }
   if(id){const i=DATA.posts.findIndex(p=>p.id===parseInt(id));if(i>-1)DATA.posts[i]=obj;}else DATA.posts.push(obj);
   save();closePostModal();renderPosts();updateDash();toast('Article saved — click Download & publish');
 }
+
 function deletePost(id){if(!confirm('Delete this article?'))return;DATA.posts=DATA.posts.filter(p=>p.id!==id);save();renderPosts();updateDash();toast('Deleted','red')}
 function closePostModal(){g('post-ov').classList.remove('open')}
+
+/* DOC UPLOAD */
+function handleDocUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  const maxMb=15;
+  if(file.size>maxMb*1024*1024){alert('File too large. Please use a file under '+maxMb+'MB.');return}
+  const ext=file.name.split('.').pop().toLowerCase();
+  const type=(ext==='pdf')?'pdf':'docx';
+  g('doc-file-icon').textContent=type==='pdf'?'📕':'📘';
+  g('doc-file-name').textContent=file.name;
+  g('doc-file-size').textContent=(file.size/1024/1024).toFixed(2)+' MB · '+type.toUpperCase()+' — ready to publish';
+  g('doc-file-info').style.display='flex';
+  g('doc-upload-label').textContent='Click to replace file';
+  g('edit-doc-name').value=file.name;
+  g('edit-doc-type').value=type;
+  const reader=new FileReader();
+  reader.onload=ev=>{g('edit-doc-data').value=ev.target.result;};
+  reader.readAsDataURL(file);
+}
+function clearDocUpload(){
+  g('edit-doc-data').value='';g('edit-doc-name').value='';g('edit-doc-type').value='';
+  if(g('doc-file-info'))g('doc-file-info').style.display='none';
+  if(g('doc-upload-label'))g('doc-upload-label').textContent='Click to upload PDF or Word document';
+  const fi=g('doc-file-input');if(fi)fi.value='';
+}
 
 /* GALLERY */
 function switchGTab(name,el){
