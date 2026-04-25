@@ -367,9 +367,14 @@ function renderContact(){
   const c=SITE_DATA.contact;
   let html='';
   if(c.email)html+=`<div class="contact-link-row"><span class="cl-label">Email</span>${c.email}</div>`;
-  if(c.twitter)html+=`<div class="contact-link-row"><span class="cl-label">Twitter</span>${c.twitter}</div>`;
+
   if(c.youtube)html+=`<div class="contact-link-row"><span class="cl-label">YouTube</span><a href="${c.youtube}" target="_blank" style="color:inherit">${c.youtube.replace('https://','')}</a></div>`;
-  (c.socialLinks||[]).forEach(l=>{html+=`<div class="contact-link-row"><span class="cl-label">${l.platform}</span>${l.handle}</div>`;});
+  (c.socialLinks||[]).forEach(l=>{
+    const url=l.url||(l.handle&&l.handle.startsWith('http')?l.handle:'');
+    const display=l.handle||url;
+    const content=url?`<a href="${url}" target="_blank" style="color:inherit">${display}</a>`:display;
+    html+=`<div class="contact-link-row"><span class="cl-label">${l.platform}</span>${content}</div>`;
+  });
   g('contact-links').innerHTML=html;
   if(g('contact-intro'))g('contact-intro').textContent=c.intro||'';
 }

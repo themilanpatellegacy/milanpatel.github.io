@@ -287,9 +287,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
         <div class="card-title">Fixed contact details</div>
         <div class="f2">
           <div class="f"><label>Email address</label><input type="email" id="c-email" placeholder="your@email.com"></div>
-          <div class="f"><label>Twitter / X handle</label><input type="text" id="c-twitter" placeholder="@handle"></div>
+          <div class="f"><label>YouTube channel URL</label><input type="url" id="c-youtube" placeholder="https://youtube.com/@yourchannel"></div>
         </div>
-        <div class="f"><label>YouTube channel URL</label><input type="url" id="c-youtube" placeholder="https://youtube.com/@yourchannel"></div>
         <div class="f"><label>Intro paragraph</label><textarea id="c-intro"></textarea></div>
       </div>
       <div class="card">
@@ -301,6 +300,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
             <div class="f">
               <label>Platform</label>
               <select id="new-soc-platform">
+                <option>Twitter / X</option>
                 <option>Instagram</option>
                 <option>LinkedIn</option>
                 <option>Facebook</option>
@@ -787,9 +787,19 @@ function deleteGalleryItem(i){if(!confirm('Remove?'))return;DATA.gallery.splice(
 function loadContact(){
   const c=DATA.contact;
   g('c-email').value=c.email||'';
-  g('c-twitter').value=c.twitter||'';
   g('c-youtube').value=c.youtube||'';
   g('c-intro').value=c.intro||'';
+  /* Migrate legacy twitter field into socialLinks */
+  if(c.twitter){
+    if(!DATA.contact.socialLinks)DATA.contact.socialLinks=[];
+    const alreadyMigrated=DATA.contact.socialLinks.some(l=>l.platform==='Twitter / X');
+    if(!alreadyMigrated){
+      const tUrl=c.twitter.startsWith('http')?c.twitter:'https://x.com/'+c.twitter.replace(/^@/,'');
+      DATA.contact.socialLinks.unshift({platform:'Twitter / X',handle:tUrl});
+    }
+    delete DATA.contact.twitter;
+    save();
+  }
   renderSocialLinksList();
 }
 function renderSocialLinksList(){
@@ -819,7 +829,6 @@ function removeSocialLink(i){
 function saveContact(){
   if(!DATA.contact.socialLinks)DATA.contact.socialLinks=[];
   DATA.contact.email=g('c-email').value.trim();
-  DATA.contact.twitter=g('c-twitter').value.trim();
   DATA.contact.youtube=g('c-youtube').value.trim();
   DATA.contact.intro=g('c-intro').value.trim();
   save();toast('Contact saved — click Download & publish');
