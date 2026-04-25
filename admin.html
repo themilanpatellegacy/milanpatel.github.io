@@ -399,27 +399,35 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
     <!-- FILE UPLOAD MODE -->
     <div id="post-file-panel" style="display:none">
       <div class="f">
-        <label>Upload your document</label>
-        <div class="upload-zone" id="doc-upload-zone" onclick="document.getElementById('doc-file-input').click()" style="padding:2rem;position:relative;transition:border-color .2s">
-          <input type="file" id="doc-file-input" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleDocUpload(event)">
-          <div id="doc-upload-label" style="font-size:.62rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:.3rem">Click or drag & drop to upload PDF or Word document</div>
-          <span id="doc-upload-sub" style="font-size:.58rem;color:var(--dim)">PDF, DOC, DOCX — your design &amp; layout is preserved exactly</span>
-        </div>
-        <div id="doc-file-info" style="display:none;margin-top:.75rem;background:var(--bg3);border:1px solid var(--green-dim);padding:.75rem 1rem;align-items:center;gap:.75rem">
-          <span id="doc-file-icon" style="font-size:1.1rem">📄</span>
+        <label style="font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)">Upload your document</label>
+
+        <!-- THE INPUT LIVES OUTSIDE THE LABEL ZONE — avoids all bubble/click issues -->
+        <input type="file" id="doc-file-input" accept=".pdf,.doc,.docx" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+
+        <!-- LABEL wraps the visual zone — clicking it natively opens the file picker, no JS needed -->
+        <label for="doc-file-input" id="doc-upload-zone" style="display:block;border:1px dashed var(--line2);padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:.5rem">
+          <div style="font-size:1.5rem;margin-bottom:.5rem">&#8679;</div>
+          <div id="doc-upload-label" style="font-size:.62rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:.25rem">Click to upload PDF or Word document</div>
+          <span style="font-size:.58rem;color:var(--dim)">PDF · DOC · DOCX — up to 15MB</span>
+        </label>
+
+        <!-- FILE INFO — shown after upload -->
+        <div id="doc-file-info" style="display:none;margin-bottom:.75rem;background:var(--bg3);border:1px solid var(--green-dim);padding:.75rem 1rem;flex-direction:row;align-items:center;gap:.75rem">
+          <span id="doc-file-icon" style="font-size:1.2rem;flex-shrink:0">&#128196;</span>
           <div style="flex:1;min-width:0">
-            <div id="doc-file-name" style="font-size:.72rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
-            <div id="doc-file-size" style="font-size:.58rem;color:var(--green);letter-spacing:.08em;text-transform:uppercase;margin-top:.15rem"></div>
+            <div id="doc-file-name" style="font-size:.72rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.2rem"></div>
+            <div id="doc-file-size" style="font-size:.58rem;color:var(--green);letter-spacing:.08em;text-transform:uppercase"></div>
           </div>
           <button class="br" onclick="clearDocUpload()" style="flex-shrink:0">Remove</button>
         </div>
+
         <input type="hidden" id="edit-doc-data">
         <input type="hidden" id="edit-doc-name">
         <input type="hidden" id="edit-doc-type">
       </div>
       <div style="background:var(--bg3);border:1px solid var(--line2);padding:1rem 1.25rem;margin-top:.25rem">
-        <p style="font-size:.62rem;color:var(--gold);letter-spacing:.08em;margin-bottom:.5rem">✦ How file articles work on your live site</p>
-        <p style="font-size:.6rem;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">PDF files</strong> — displayed as a full embedded PDF viewer. Your exact layout, fonts, and formatting appear as designed.<br><strong style="color:var(--text)">Word DOCX files</strong> — rendered as a formatted article using your document's headings, paragraphs, and structure — styled in your site's elegant typography.</p>
+        <p style="font-size:.62rem;color:var(--gold);letter-spacing:.08em;margin-bottom:.5rem">How file articles work on your live site</p>
+        <p style="font-size:.6rem;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">PDF files</strong> — displayed as a full embedded viewer. Your exact layout, fonts, and design appear as you made them.<br><strong style="color:var(--text)">Word DOCX files</strong> — displayed as a styled download card with a direct download button.</p>
       </div>
     </div>
 
@@ -540,6 +548,7 @@ function openAddPost(mode){
   g('cover-preview').style.display='none';
   clearDocUpload();
   switchPostMode(mode);
+  initDocUpload();
   g('mode-switcher').style.display='flex';
   g('post-ov').classList.add('open');
 }
@@ -570,6 +579,7 @@ function editPost(id){
     switchPostMode('write');
   }
   g('mode-switcher').style.display='flex';
+  initDocUpload();
   g('post-ov').classList.add('open');
 }
 
@@ -605,98 +615,96 @@ function deletePost(id){if(!confirm('Delete this article?'))return;DATA.posts=DA
 function closePostModal(){g('post-ov').classList.remove('open')}
 
 /* DOC UPLOAD — with smart auto-fill */
-function handleDocUpload(e){
-  const file=e.target.files[0];if(!file)return;
-  const maxMb=15;
-  if(file.size>maxMb*1024*1024){alert('File too large. Please use a file under '+maxMb+'MB.');return}
+function handleDocUpload(file){
+  if(!file)return;
+  if(file.size>15*1024*1024){alert('File too large. Please use a file under 15MB.');return;}
   const ext=file.name.split('.').pop().toLowerCase();
   const type=(ext==='pdf')?'pdf':'docx';
 
-  /* ── AUTO-FILL fields from filename ── */
-  /* Strip extension and clean up filename into a readable title */
-  let rawName=file.name.replace(/\.[^.]+$/,''); /* remove extension */
-  rawName=rawName.replace(/[-_]+/g,' ').replace(/\s+/g,' ').trim();
-  /* Capitalise each word */
+  /* AUTO-FILL fields from filename */
+  let rawName=file.name.replace(/\.[^.]+$/,'').replace(/[-_]+/g,' ').replace(/\s+/g,' ').trim();
   const titleCase=rawName.replace(/\b\w/g,c=>c.toUpperCase());
-
-  /* Auto number label — next available */
   const nextNum=DATA.posts.length+1;
   const numLabel='No. '+String(nextNum).padStart(2,'0');
-
-  /* Try to detect a category from the filename — look for common keywords */
   const lower=rawName.toLowerCase();
-  let autoCategory='';
+  let autoCategory='Article';
   if(/science|research|study|biology|physics|chemistry|medical/.test(lower)) autoCategory='Science';
   else if(/ai|artificial|intelligence|machine|learning|tech|technology|digital/.test(lower)) autoCategory='Technology · AI';
   else if(/essay|opinion|editorial|culture|society|social/.test(lower)) autoCategory='Essay · Culture';
   else if(/education|school|classroom|learning|student/.test(lower)) autoCategory='Education';
   else if(/history|historical|archive/.test(lower)) autoCategory='History';
   else if(/art|design|visual|creative/.test(lower)) autoCategory='Art · Design';
-  else autoCategory='Article';
 
-  /* Short description placeholder */
-  const autoDesc='Read the full '+type.toUpperCase()+' — '+titleCase+'.';
-
-  /* Fill in the fields (only if currently empty or still showing auto-generated number) */
   if(!g('edit-title').value.trim()) g('edit-title').value=titleCase;
   if(!g('edit-cat').value.trim()) g('edit-cat').value=autoCategory;
-  if(!g('edit-desc').value.trim()) g('edit-desc').value=autoDesc;
-  /* Always update number label when in file mode and it's a new article */
+  if(!g('edit-desc').value.trim()) g('edit-desc').value='Read the full '+type.toUpperCase()+' — '+titleCase+'.';
   if(!g('edit-id').value) g('edit-num').value=numLabel;
 
-  /* ── Show file info box ── */
+  /* Show file info box */
   g('doc-file-icon').textContent=type==='pdf'?'📕':'📘';
   g('doc-file-name').textContent=file.name;
   g('doc-file-size').textContent=(file.size/1024/1024).toFixed(2)+' MB · '+type.toUpperCase()+' — ready to publish';
   const infoBox=g('doc-file-info');
   infoBox.style.display='flex';
+  infoBox.style.flexDirection='row';
   infoBox.style.alignItems='center';
   infoBox.style.gap='.75rem';
   g('doc-upload-label').textContent='Click to replace file';
   g('edit-doc-name').value=file.name;
   g('edit-doc-type').value=type;
 
-  /* Read file as base64 */
+  /* Read as base64 */
   const reader=new FileReader();
-  reader.onload=ev=>{
+  reader.onload=function(ev){
     g('edit-doc-data').value=ev.target.result;
-    toast('✓ File loaded & fields auto-filled — '+file.name);
+    toast('File loaded — '+file.name);
   };
-  reader.onerror=()=>alert('Could not read file. Please try again.');
+  reader.onerror=function(){alert('Could not read file. Please try again.');};
   reader.readAsDataURL(file);
 }
 function clearDocUpload(){
   g('edit-doc-data').value='';g('edit-doc-name').value='';g('edit-doc-type').value='';
   const infoBox=g('doc-file-info');
   if(infoBox)infoBox.style.display='none';
-  if(g('doc-upload-label'))g('doc-upload-label').textContent='Click or drag & drop to upload PDF or Word document';
+  if(g('doc-upload-label'))g('doc-upload-label').textContent='Click to upload PDF or Word document';
   const fi=g('doc-file-input');if(fi)fi.value='';
 }
 
-/* Drag-and-drop support for doc upload zone */
-(function(){
-  const zone=document.getElementById('doc-upload-zone');
-  if(!zone)return;
+/* DOC UPLOAD INIT — called when modal opens, not at page load */
+function initDocUpload(){
+  const input=g('doc-file-input');
+  const zone=g('doc-upload-zone');
+  if(!input||!zone)return;
+
+  /* Remove any old listeners by cloning */
+  const newInput=input.cloneNode(true);
+  input.parentNode.replaceChild(newInput,input);
+
+  /* File selected via click */
+  newInput.addEventListener('change',function(e){
+    const file=e.target.files[0];
+    if(file) handleDocUpload(file);
+  });
+
+  /* Drag and drop */
   zone.addEventListener('dragover',function(e){
-    e.preventDefault();e.stopPropagation();
-    zone.style.borderColor='var(--green)';
+    e.preventDefault();
+    zone.style.borderColor='var(--green)';zone.style.borderStyle='solid';
   });
   zone.addEventListener('dragleave',function(e){
-    e.preventDefault();e.stopPropagation();
-    zone.style.borderColor='';
+    e.preventDefault();
+    zone.style.borderColor='';zone.style.borderStyle='dashed';
   });
   zone.addEventListener('drop',function(e){
-    e.preventDefault();e.stopPropagation();
-    zone.style.borderColor='';
+    e.preventDefault();
+    zone.style.borderColor='';zone.style.borderStyle='dashed';
     const file=e.dataTransfer.files[0];
     if(!file)return;
     const ext=file.name.split('.').pop().toLowerCase();
-    if(!['pdf','doc','docx'].includes(ext)){
-      alert('Please drop a PDF or Word document (.pdf, .doc, .docx)');return;
-    }
-    handleDocUpload({target:{files:[file]}});
+    if(!['pdf','doc','docx'].includes(ext)){alert('Only PDF, DOC, DOCX files accepted.');return;}
+    handleDocUpload(file);
   });
-})();
+}
 
 /* GALLERY */
 function switchGTab(name,el){
