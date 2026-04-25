@@ -513,11 +513,12 @@ function saveHero(){
 
 /* POSTS */
 function renderPosts(){
-  g('posts-list').innerHTML=DATA.posts.length?DATA.posts.map(p=>{
+  g('posts-list').innerHTML=DATA.posts.length?DATA.posts.map((p,idx)=>{
     const isFile=p.contentType==='file';
-    const badge=isFile?`<span style="font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .45rem;background:var(--bg);border:1px solid var(--green-dim);color:var(--green);margin-left:.5rem">${(p.docType||'file').toUpperCase()}</span>`:'';
-    return `<div class="pi"><div class="pn">${p.num}</div><div><div class="pt2">${p.title}${badge}</div><div class="pc2">${p.category}</div></div><div class="pa"><button class="bs" onclick="editPost(${p.id})">Edit</button><button class="br" onclick="deletePost(${p.id})">Del</button></div></div>`;
-  }).join(''):'<div style="padding:2rem;text-align:center;color:var(--dim);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase">No articles yet</div>';
+    const fileBadge=isFile?`<span style="font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .45rem;background:var(--bg);border:1px solid var(--green-dim);color:var(--green);margin-left:.5rem">${(p.docType||'file').toUpperCase()}</span>`:'';
+    const newestBadge=idx===0?`<span style="font-family:var(--mono);font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .5rem;background:var(--gold);color:var(--bg);margin-left:.5rem">Latest</span>`:'';
+    return `<div class="pi"><div class="pn" style="${idx===0?'color:var(--gold)':''}">${p.num}</div><div><div class="pt2">${p.title}${fileBadge}${newestBadge}</div><div class="pc2">${p.category}</div></div><div class="pa"><button class="bs" onclick="editPost(${p.id})">Edit</button><button class="br" onclick="deletePost(${p.id})">Del</button></div></div>`;
+  }).join('')+'<div style="padding:.75rem 1.25rem;font-size:.55rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--line)">&#8593; Newest article always appears first on your site</div>':'<div style="padding:2rem;text-align:center;color:var(--dim);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase">No articles yet</div>';
 }
 
 function switchPostMode(mode){
@@ -539,9 +540,8 @@ function openAddPost(mode){
   mode=mode||'write';
   g('post-modal-title').textContent='Add article';
   g('edit-id').value='';
-  /* Auto-generate next number label */
-  const nextNum=DATA.posts.length+1;
-  g('edit-num').value='No. '+String(nextNum).padStart(2,'0');
+  /* New post will become No.01 — all others shift down automatically on save */
+  g('edit-num').value='No. 01';
   g('edit-cat').value='';g('edit-title').value='';g('edit-desc').value='';
   g('edit-body').value='';g('edit-cover-url').value='';
   g('edit-doc-data').value='';g('edit-doc-name').value='';g('edit-doc-type').value='';
@@ -607,7 +607,16 @@ function savePost(){
     if(body&&!body.includes('<')){body=body.split(/\n\s*\n/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('')}
     obj.body=body;
   }
-  if(id){const i=DATA.posts.findIndex(p=>p.id===parseInt(id));if(i>-1)DATA.posts[i]=obj;}else DATA.posts.push(obj);
+  if(id){
+    /* EDIT existing — keep its position, just update in place */
+    const i=DATA.posts.findIndex(p=>p.id===parseInt(id));
+    if(i>-1)DATA.posts[i]=obj;
+  } else {
+    /* NEW post — always insert at the TOP (position 0) */
+    DATA.posts.unshift(obj);
+  }
+  /* Re-number all posts so No.01 is always the newest (top) */
+  DATA.posts.forEach((p,i)=>{p.num='No. '+String(i+1).padStart(2,'0');});
   save();closePostModal();renderPosts();updateDash();toast('Article saved — click Download & publish');
 }
 
