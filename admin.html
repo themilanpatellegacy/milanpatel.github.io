@@ -402,7 +402,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13
         <label style="font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)">Upload your document</label>
 
         <!-- THE INPUT LIVES OUTSIDE THE LABEL ZONE — avoids all bubble/click issues -->
-        <input type="file" id="doc-file-input" accept=".pdf,.doc,.docx" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+        <input type="file" id="doc-file-input" accept=".pdf,.doc,.docx" style="position:absolute;width:1px;height:1px;opacity:0;top:0;left:0">
 
         <!-- LABEL wraps the visual zone — clicking it natively opens the file picker, no JS needed -->
         <label for="doc-file-input" id="doc-upload-zone" style="display:block;border:1px dashed var(--line2);padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:.5rem">
